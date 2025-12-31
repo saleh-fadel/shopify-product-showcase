@@ -6,13 +6,6 @@ const client = createStorefrontApiClient({
   publicAccessToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!,
 });
 
-// Debug logging
-console.log('Shopify Config:', {
-  storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,
-  hasToken: !!process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-  tokenPrefix: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN?.substring(0, 10) + '...',
-});
-
 export async function getProducts() {
   const query = `
     query getProducts {
@@ -45,13 +38,6 @@ export async function getProducts() {
 
   try {
     const { data, errors } = await client.request(query);
-    
-    // Debug logging
-    console.log('=== Shopify API Response ===');
-    console.log('Full data:', JSON.stringify(data, null, 2));
-    console.log('Errors:', errors);
-    console.log('Number of products:', data?.products?.edges?.length || 0);
-    console.log('============================');
     
     if (errors) {
       console.error('GraphQL errors:', errors);
